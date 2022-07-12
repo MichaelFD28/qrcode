@@ -12,8 +12,10 @@ import Button from "@mui/material/Button";
 function App() {
   const [link, setLink] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const [scanResultFile, setScanResultFile] = useState("");
-  const qrRef = useRef(null);
+  const [errorType, setErrorType] = useState("");
+  // const [scanResultFile, setScanResultFile] = useState("");
+  const [scanResultWebCam, setScanResultWebCam] = useState("");
+  // const qrRef = useRef(null);
 
   const generateQrCode = async () => {
     try {
@@ -25,18 +27,28 @@ function App() {
     }
   };
 
-  const handleScanFile = (result, error) => {
-    if (!!result) {
-      setScanResultFile(result?.text);
-    }
-    if (!!error) {
-      console.info(error);
-    }
-  };
+  // const handleScanFile = (result, error) => {
+  //   if (result) {
+  //     setScanResultFile(result?.text);
+  //   }
+  //   if (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  const onScanFile = () => {
-    // `current` points to the mounted text input element
-    qrRef.current?.openImageDialog();
+  // const onScanFile = () => {
+  //   // `current` points to the mounted text input element
+  //   qrRef.current?.openImageDialog();
+  // };
+
+  const handleScanWebCam = (result, error) => {
+    if (result) {
+      setScanResultWebCam(result?.text);
+    }
+    if (error) {
+      console.log(error);
+      setErrorType(error);
+    }
   };
 
   return (
@@ -46,7 +58,7 @@ function App() {
           Generate, Download and Scan QR Code with React js
         </h2>
         <CardContent>
-          <Grid container spacing={2}>
+          <Grid container spacing={4}>
             <Grid item xl={4} lg={4} m={6} sm={12} xs={12}>
               <TextField
                 label="Enter Link Here"
@@ -74,7 +86,7 @@ function App() {
                 </a>
               )}
             </Grid>
-            <Grid item xl={4} lg={4} m={6} sm={12} xs={12}>
+            {/* <Grid item xl={4} lg={4} m={6} sm={12} xs={12}>
               <Button
                 className="btn"
                 variant="contained"
@@ -88,12 +100,20 @@ function App() {
                 scanDelay={300}
                 style={{ width: "100%", border: "solid 2px #a8a7a7" }}
                 onResult={handleScanFile}
-                // legacyMode
               />
               <h3>Scanned Code: {scanResultFile}</h3>
-            </Grid>
+            </Grid> */}
 
-            <Grid item xl={4} lg={4} m={6} sm={12} xs={12}></Grid>
+            <Grid item xl={4} lg={4} m={6} sm={12} xs={12}>
+              <h3>QR Code Scan by Web Cam</h3>
+              {errorType && <div className="error">Camera not found.</div>}
+              <QrReader
+                delay={300}
+                style={{ width: "100%" }}
+                onResult={handleScanWebCam}
+              />
+              <h3>Scanned Code: {scanResultWebCam}</h3>
+            </Grid>
           </Grid>
         </CardContent>
       </Card>
