@@ -106,12 +106,24 @@ function App() {
 
             <Grid item xl={4} lg={4} m={6} sm={12} xs={12}>
               <h3>QR Code Scan by Web Cam</h3>
-              {errorType && <div className="error">Camera not found.</div>}
+              {/* {errorType && <div className="error">Camera not found.</div>} */}
               <QrReader
+                onResult={(result, error) => {
+                  if (!!result) {
+                    setScanResultWebCam(result?.text);
+                  }
+
+                  if (!!error) {
+                    console.info(error);
+                  }
+                }}
+                style={{ width: "100%" }}
+              />
+              {/* <QrReader
                 delay={300}
                 style={{ width: "100%" }}
                 onResult={handleScanWebCam}
-              />
+              /> */}
               <h3>Scanned Code: {scanResultWebCam}</h3>
             </Grid>
           </Grid>
