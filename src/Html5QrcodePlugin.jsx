@@ -1,8 +1,6 @@
 import { Html5QrcodeScanner } from "html5-qrcode";
 import { useEffect } from "react";
 
-// https://www.linkedin.com/in/michael-driscoll-2a7287165/
-
 const qrcodeRegionId = "html5qr-code-full-region";
 
 const createConfig = (props) => {
